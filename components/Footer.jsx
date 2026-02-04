@@ -6,11 +6,11 @@ export default function Footer() {
   return (
     <footer className="bg-[#e7750a] text-white mt-16">
       <div className="max-w-[1500px] mx-auto px-6 py-5 grid grid-cols-1 md:grid-cols-3 gap-8">
-        
+
         <div>
           <h2 className="text-3xl font-bold">Food</h2>
           <p className="mt-3 text-sm text-white/80">
-            Discover delicious recipes from around the world.  
+            Discover delicious recipes from around the world.
           </p>
         </div>
 
@@ -29,7 +29,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Social */}
         <div>
           <h3 className="text-xl font-semibold mb-4">Follow us</h3>
           <div className="flex gap-4 text-2xl">
@@ -46,7 +45,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className="border-t border-white/20 py-4 text-center text-sm text-white/70">
         © {new Date().getFullYear()} Food App. All rights reserved.
       </div>

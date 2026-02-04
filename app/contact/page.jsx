@@ -1,7 +1,9 @@
 'use client'
-import { useState } from "react";
+import { useState, useRef } from "react";
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
+  const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,9 +16,21 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Отправлено:", form);
-    alert("Сообщение отправлено!");
-    setForm({ name: "", email: "", message: "" });
+
+    emailjs.sendForm(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      formRef.current,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    )
+      .then((result) => {
+        console.log(result.text);
+        alert("Сообщение успешно отправлено!");
+        setForm({ name: "", email: "", message: "" });
+      }, (error) => {
+        console.log(error.text);
+        alert("Ошибка при отправке сообщения. Попробуйте позже.");
+      });
   };
 
   return (
@@ -26,8 +40,7 @@ export default function ContactPage() {
           Contact Us
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Имя */}
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-700 mb-2">Your Name</label>
             <input
@@ -41,7 +54,6 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-gray-700 mb-2">Your Email</label>
             <input
@@ -55,7 +67,6 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* Сообщение */}
           <div>
             <label className="block text-gray-700 mb-2">Message</label>
             <textarea
@@ -69,7 +80,6 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* Кнопка */}
           <button
             type="submit"
             className="w-full bg-[#e7750a] text-white py-3 rounded-lg font-semibold hover:bg-[#d76909] transition-colors"
